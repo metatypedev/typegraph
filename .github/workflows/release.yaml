@@ -8,10 +8,11 @@ on:
         required: false
         type: choice
         options:
+          - ""
           - alpha
           - beta
           - rc
-        default: "warning"
+        default: ""
 
 jobs:
   prepare:
