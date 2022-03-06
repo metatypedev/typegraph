@@ -28,7 +28,8 @@ jobs:
           prerelease: ${{ github.event.inputs.prerelease }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           changelog_increment_filename: body.md
-      - name: Details
+      - name: Craft details
+        id: details
         run: |
           git show -s --format=%s
           echo "::set-output name=title::$(git show -s --format=%s)"
@@ -40,5 +41,5 @@ jobs:
         with:
           branch: release
           delete-branch: true
-          title: Release ${{ steps.Details.outputs.title }}
-          body: ${{ steps.Details.outputs.body }}
+          title: Release ${{ steps.details.outputs.title }}
+          body: ${{ steps.details.outputs.body }}
