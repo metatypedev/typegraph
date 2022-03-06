@@ -6,13 +6,7 @@ on:
       prerelease:
         description: "Release type"
         required: false
-        type: choice
-        options:
-          - ""
-          - alpha
-          - beta
-          - rc
-        default: ""
+        type: string
 
 jobs:
   prepare:
@@ -40,11 +34,11 @@ jobs:
           echo "::set-output name=title::$(git show -s --format=%s)"
           echo "::set-output name=body::$(cat body.md)"
           rm body.md
-          git status
+          git diff HEAD
       - name: Create pull request
         uses: peter-evans/create-pull-request@v3
         with:
           branch: release
           delete-branch: true
-          title: ${{ steps.Details.outputs.title }}
+          title: Release ${{ steps.Details.outputs.title }}
           body: ${{ steps.Details.outputs.body }}
