@@ -20,6 +20,8 @@ jobs:
           python-version: 3.8
       - name: Install poetry
         uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: 1.1.12
       - name: Check2
         run: |
           poetry --version
