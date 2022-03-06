@@ -71,14 +71,13 @@ jobs:
           poetry publish
       - uses: actions-ecosystem/action-push-tag@v1
         with:
-          tag: v${{ needs.release-check.outputs.release }}
+          tag: ${{ needs.release-check.outputs.release }}
       - name: GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          name: Release v${{ needs.release-check.outputs.release }}
-          tag_name: v${{ needs.release-check.outputs.release }}
+          tag_name: ${{ needs.release-check.outputs.release }}
           #prerelease: "true"
           body: |
-            See [changelog](https://github.com/${{ env.GITHUB_REPOSITORY }}/blob/v${{ needs.release-check.outputs.release }}/CHANGELOG.md).
+            See [changelog](https://github.com/${{ env.GITHUB_REPOSITORY }}/blob/${{ needs.release-check.outputs.release }}/CHANGELOG.md).
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
