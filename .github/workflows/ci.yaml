@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     outputs:
-      release: ${{ steps.Check.outputs.release }}
+      release: ${{ steps.check.outputs.release }}
 
     steps:
       - name: Check out
@@ -27,7 +27,8 @@ jobs:
         uses: abatilo/actions-poetry@v2.0.0
         with:
           poetry-version: ${{ env.POETRY_VERSION }}
-      - name: Check
+      - name: Check release
+        id: check
         run: |
           VERSION=$(poetry version -s)
           ALREADY_RELEASED=$(curl -s https://pypi.org/pypi/typegraph/json | jq ".releases | keys | any(. == \"$VERSION\")")
