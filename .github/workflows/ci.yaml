@@ -6,6 +6,9 @@ on:
     - main
   pull_request:
 
+env:
+  POETRY_VERSION: 1.1.12
+
 jobs:
   release-check:
     runs-on: ubuntu-latest
@@ -23,17 +26,11 @@ jobs:
       - name: Install poetry
         uses: abatilo/actions-poetry@v2.0.0
         with:
-          poetry-version: 1.1.12
-      - name: Check2
-        run: |
-          poetry --version
-          poetry version -s
+          poetry-version: ${{ env.POETRY_VERSION }}
       - name: Check
         run: |
           VERSION=$(poetry version -s)
-          echo $VERSION
           ALREADY_RELEASED=$(curl -s https://pypi.org/pypi/typegraph/json | jq ".releases | keys | any(. == \"$VERSION\")")
-          echo $ALREADY_RELEASED
           echo "::set-output release=$([[ "$ALREADY_RELEASED" == "true" ]] && echo "" || $VERSION)"
 
   publish:
@@ -50,6 +47,8 @@ jobs:
           python-version: 3.8
       - name: Install poetry
         uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: ${{ env.POETRY_VERSION }}
       - name: Publish
         env:
           POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
