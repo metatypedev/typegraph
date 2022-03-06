@@ -5,7 +5,7 @@ on:
     inputs:
       prerelease:
         description: "Release type"
-        required: false
+        required: true
         type: choice
         options:
           - ""
@@ -34,16 +34,16 @@ jobs:
           prerelease: ${{ github.event.inputs.prerelease }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           changelog_increment_filename: body.md
-      - name: Craft details
+      - name: Details
         run: |
-          echo "change=$(cat body.md)" >> $GITHUB_ENV
-          echo "title=$(git show -s --format=%s)" >> $GITHUB_ENV
+          echo "::set-output name=title::$(git show -s --format=%s)"
+          echo "::set-output name=body::$(cat body.md)"
           rm body.md
           git status
-      - name: Create pull pequest
+      - name: Create pull request
         uses: peter-evans/create-pull-request@v3
         with:
           branch: release
           delete-branch: true
-          title: ${{ env.title }}
-          body: ${{ env.body }}
+          title: ${{ steps.Details.outputs.title }}
+          body: ${{ steps.Details.outputs.body }}
