@@ -5,7 +5,7 @@ on:
     inputs:
       prerelease:
         description: "Release type"
-        required: true
+        required: false
         type: choice
         options:
           - ""
@@ -36,6 +36,7 @@ jobs:
           changelog_increment_filename: body.md
       - name: Details
         run: |
+          git show -s --format=%s
           echo "::set-output name=title::$(git show -s --format=%s)"
           echo "::set-output name=body::$(cat body.md)"
           rm body.md
