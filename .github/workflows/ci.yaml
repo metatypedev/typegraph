@@ -94,6 +94,6 @@ jobs:
         with:
           tag_name: ${{ needs.release-check.outputs.release }}
           body: |
-            See [changelog](https://github.com/${{ env.GITHUB_REPOSITORY }}/blob/${{ needs.release-check.outputs.release }}/CHANGELOG.md).
+            See [changelog](https://github.com/${{ github.repository }}/blob/${{ needs.release-check.outputs.release }}/CHANGELOG.md).
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
