@@ -17,7 +17,12 @@ const dataView = (mem) =>
 
 const fetchCompile = (url) => {
   console.log(url);
-  fetch(url).then(WebAssembly.compileStreaming);
+  fetch(url)
+    .then((x) => {
+      console.log(x);
+      return x;
+    })
+    .then(WebAssembly.compileStreaming);
 };
 
 function getErrorPayload(e) {
